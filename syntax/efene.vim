@@ -32,8 +32,10 @@ syn match efeneNumberFloat   '\<\d\+\.\d\+\%([eE][+-]\=\d\+\)\=\>'
 
 " Strings, atoms, characters
 syn region efeneString            start=/"/ end=/"/ contains=efeneStringModifier
-syn region efeneQuotedAtom        start=/'/ end=/'/ contains=efeneQuotedAtomModifier
+syn region efeneQuotedAtom        start=/'/ end=/'/ contains=efeneBinaryStringModifier
+syn region efeneQuotedAtom        start=/`/ end=/`/ contains=efeneQuotedAtomModifier
 syn match efeneStringModifier     '\~\a\|\\\%(\o\{1,3}\|x\x\x\|x{\x\+}\|\^.\|.\)' contained
+syn match efeneBinaryStringModifier '\~\a\|\\\%(\o\{1,3}\|x\x\x\|x{\x\+}\|\^.\|.\)' contained
 syn match efeneQuotedAtomModifier '\~\a\|\\\%(\o\{1,3}\|x\x\x\|x{\x\+}\|\^.\|.\)' contained
 syn match efeneModifier           '\$\%([^\\]\|\\\%(\o\{1,3}\|x\x\x\|x{\x\+}\|\^.\|.\)\)'
 
@@ -137,6 +139,7 @@ if version >= 508 || !exists("did_efene_inits")
 
   HiLink efeneStringModifier Special
   HiLink efeneQuotedAtomModifier Special
+  HiLink efeneBinaryStringModifier Special
   HiLink efeneModifier Special
 
   " Operators, separators
