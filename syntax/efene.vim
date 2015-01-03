@@ -40,7 +40,7 @@ syn match efeneQuotedAtomModifier '\~\a\|\\\%(\o\{1,3}\|x\x\x\|x{\x\+}\|\^.\|.\)
 syn match efeneModifier           '\$\%([^\\]\|\\\%(\o\{1,3}\|x\x\x\|x{\x\+}\|\^.\|.\)\)'
 
 " Operators, separators
-syn match efeneOperator   '==\|===\|!=\|!==\|<\|<=\|>\|>=\|++\|--\|=\|!\|<-\|+\|-\|\*\|\/|\/\/|%|->|->>|<<-'
+syn match efeneOperator   '==\|is\|!=\|isnt\|<\|<=\|>\|>=\|++\|--\|=\|!\|<-\|+\|-\|\*\|\/|\/\/|%|->|->>|<<-'
 syn match efeneOperator   '<<\|>>\|&\|^\|\~'
 syn keyword efeneOperator or xor orr and andd not
 syn match efeneBracket    '{\|}\|\[\|]'
