@@ -42,9 +42,25 @@ function! EfeneIndent()
     return indnt
   endif
 
+  if this_line =~ '^\s*case\(\s\+\|:\)'
+      if previous =~ '<-\s*$' || previous =~ 'receive\s*$' || previous =~ '\smatch\s'
+		  return indnt
+      end
+
+	  if previous =~ '^\s*case\s\+'
+		  return indnt
+	  endif
+
+	  return indnt - &shiftwidth
+  endif
+
   if this_line =~ '^\s*end\s*$'
       if nextLine =~ '^\s*fn\s\+' || nextLineNum == ''
           return 0
+      endif
+
+      if previous =~ '\scase\s' || previous =~ '\selse:'
+		  return indnt
       endif
 
       return indnt - &shiftwidth
@@ -58,7 +74,11 @@ function! EfeneIndent()
       return indnt + &shiftwidth
   endif
 
-  if previous =~ ':\s*$'
+  if this_line =~ '^\s*}\s*$' || this_line =~ '^\s*]\s*$' || this_line =~ '^\s*)\s*$'
+    return indnt - &shiftwidth
+  end
+
+  if previous =~ ':\s*$' || previous =~ '{\s*$' || previous =~ '[\s*$' || previous =~ '(\s*$'
     return indnt + &shiftwidth
   endif
 
@@ -66,29 +86,9 @@ function! EfeneIndent()
     return indnt - &shiftwidth
   endif
 
-  if previous =~ 'begin\s*$' || previous =~ '\s\+try\s*$' || previous =~ '\s\+catch\s*' || previous =~ '\s\+after\s*' || previous =~ '\s\+receive\s*'
-    return indnt + &shiftwidth
-  endif
-
-  if this_line =~ '^\s*case\s\+' && (previous =~ '\s+fn\s*$' || previous =~ '\s\+fn\s\+[A-Z][A-Za-z]*\s*$')
-      return indnt + &shiftwidth
-  endif
-
-  if this_line =~ '^\s\+case\s\+' && previous =~ '^\s\+match\s\+'
-    return indnt + &shiftwidth
-  endif
-
-  if this_line =~ '^\s*case\(\s\+\|:\)'
-      if previous =~ '^\s*case\s\+'
-          return indnt
-      endif
-
-      if previous =~ '^\s*fn\s\+'
-          return indnt + &shiftwidth
-      endif
-
-      return indnt - &shiftwidth
-  endif
+  " if previous =~ 'begin\s*$' || previous =~ '\s\+try\s*$' || previous =~ '\s\+catch\s*' || previous =~ '\s\+after\s*' || previous =~ '\s\+receive\s*'
+  "   return indnt + &shiftwidth
+  " endif
 
   if this_line =~ '^\s*else\(\s\+\|:\)'
       if previous =~ '^\s*else\(\s\+\|:\)' || previous =~ '\s\+when\s*'
